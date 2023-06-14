@@ -14,7 +14,7 @@
 
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "27015"
+#define DEFAULT_PORT "80"
 
 int __cdecl main(int argc, char** argv)
 {
@@ -23,7 +23,8 @@ int __cdecl main(int argc, char** argv)
     struct addrinfo* result = NULL,
         * ptr = NULL,
         hints;
-    const char* sendbuf = "this is a test";
+    const char* sendbuf =
+        "GET / HTTP/1.1\r\nHOST: www.naver.com\r\nCpmmectopm close\r\n\r\n";
     char recvbuf[DEFAULT_BUFLEN];
     int iResult;
     int recvbuflen = DEFAULT_BUFLEN;
@@ -109,7 +110,8 @@ int __cdecl main(int argc, char** argv)
 
         iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
         if (iResult > 0)
-            printf("Bytes received: %d\n", iResult);
+            printf("%s\n", recvbuf);
+            //printf("Bytes received: %d\n", iResult);
         else if (iResult == 0)
             printf("Connection closed\n");
         else
